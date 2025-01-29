@@ -28,5 +28,26 @@ class MotionDetector: ObservableObject {
         self.updateInterval = updateInterval
     }
     
-    
+    func start() {
+        if motionManager.isDeviceMotionAvailable {
+            motionManager.startDeviceMotionUpdates()
+            
+            timer = Timer.scheduledTimer(withTimeInterval: updateInterval, repeats: true, block: { _ in
+                // MARK: TODO self.updateMotionData()
+            })
+        } else {
+            print("Device motion not available")
+        }
+        
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        
+        orientationObserver = NotificationCenter.default.addObserver(forName: orientationNotification, object: nil, queue: .main) { [weak self] _ in
+            switch UIDevice.current.orientation {
+            case .faceUp, .faceDown, .unknown:
+                break
+            default:
+                self?.currentOrientation = UIDevice.current.orientation
+            }
+        }
+    }
 }
