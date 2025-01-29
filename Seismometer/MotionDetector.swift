@@ -50,4 +50,13 @@ class MotionDetector: ObservableObject {
             }
         }
     }
+    
+    func updateMotionData() {
+        if let data = motionManager.deviceMotion {
+            //MARK: TODO (roll, pitch) = currentOrientation.adjustRollAndPitch(data.attitude)
+            zAcceleration = data.userAcceleration.z
+            
+            onUpdate()
+        }
+    }
 }
