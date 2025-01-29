@@ -57,5 +57,5 @@ struct GaugeBackground: View {
 }
 
 #Preview {
-    GaugeBackground()
+    GaugeBackground(width: 300)
 }
