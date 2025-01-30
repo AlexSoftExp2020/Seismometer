@@ -25,6 +25,13 @@ struct LineGraph: View {
         
         return yValue
     }
+    
+    func xGraphPosition(_ index: Int, in size: CGSize) -> Double {
+        let increment = size.width / Double(maxData)
+        let base = Double(maxData - data.count) * increment
+        return base + Double(index) * increment
+    }
+    
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
