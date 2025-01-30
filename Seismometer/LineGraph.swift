@@ -79,7 +79,3 @@ struct LineGraph: View {
         }
     }
 }
-
-#Preview {
-    LineGraph()
-}
