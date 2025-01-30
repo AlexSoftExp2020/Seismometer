@@ -27,7 +27,36 @@ let maxData =  1000
     var body: some View {
         VStack {
             Spacer()
-            //MARK: TODO LineGraph
+            LineGraph(data: data, maxData: maxData, minValue: graphMinValue, maxValue: graphMaxValue)
+                .clipped()
+                .background(Color.accentColor.opacity(0.1))
+                .cornerRadius(20)
+                .padding()
+                .aspectRatio(1, contentMode: .fit)
+            
+            Spacer()
+            
+            Text("Sensitivity")
+                .font(.headline)
+            
+            Slider(value: $sensitivity, in: 0...1, minimumValueLabel: Text("Min"), maximumValueLabel: Text("Max")) {
+                Text("Sensitivity")
+            }
+            .padding()
+            
+            Spacer()
+            
+            Text("Set your device on a first surface to record vibrations using its motion sensors.")
+                .padding()
+            
+            Spacer()
+        }.onAppear {
+            detector.onUpdate = {
+                data.append(-detector.zAcceleration)
+                if data.count > maxData {
+                    data = Array(data.dropFirst())
+                }
+            }
         }
     }
 }
