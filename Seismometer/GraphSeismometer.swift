@@ -63,4 +63,5 @@ let maxData =  1000
 
 #Preview {
     GraphSeismometer()
+        .environmentObject(MotionDetector(updateInterval: 0.01).started())
 }
