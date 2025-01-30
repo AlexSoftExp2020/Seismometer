@@ -33,7 +33,7 @@ class MotionDetector: ObservableObject {
             motionManager.startDeviceMotionUpdates()
             
             timer = Timer.scheduledTimer(withTimeInterval: updateInterval, repeats: true, block: { _ in
-                // MARK: TODO self.updateMotionData()
+                self.updateMotionData()
             })
         } else {
             print("Device motion not available")
@@ -53,7 +53,7 @@ class MotionDetector: ObservableObject {
     
     func updateMotionData() {
         if let data = motionManager.deviceMotion {
-            //MARK: TODO (roll, pitch) = currentOrientation.adjustRollAndPitch(data.attitude)
+            (roll, pitch) = currentOrientation.adjustedRollAndPitch(data.attitude)
             zAcceleration = data.userAcceleration.z
             
             onUpdate()
