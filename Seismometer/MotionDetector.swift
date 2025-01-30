@@ -73,3 +73,10 @@ class MotionDetector: ObservableObject {
         stop()
     }
 }
+
+extension MotionDetector {
+    func started() -> MotionDetector {
+        start()
+        return self
+    }
+}
