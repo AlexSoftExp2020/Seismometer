@@ -68,4 +68,8 @@ class MotionDetector: ObservableObject {
         }
         orientationObserver = nil
     }
+    
+    deinit {
+        stop()
+    }
 }
