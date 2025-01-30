@@ -33,7 +33,50 @@ struct LineGraph: View {
     }
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Canvas { context, size in
+            var lines = Path()
+            
+            let increment = size.width / Double(maxData)
+            
+            let phase = -1 * timestep % gridSpacing
+            var x = Double(phase)
+            repeat {
+                lines.move(to: CGPoint(x: x * increment, y: 0))
+                lines.addLine(to: CGPoint(x: x * increment, y: size.height))
+                x += Double(gridSpacing)
+            } while x <= Double(maxData)
+            
+            var y = size.height / 2
+            repeat {
+                lines.move(to: CGPoint(x: 0, y: y))
+                lines.addLine(to: CGPoint(x: size.width, y: y))
+                y += increment * Double(gridSpacing)
+            } while y <= size.height
+            
+            y = size.height / 2
+            repeat {
+                lines.move(to: CGPoint(x: 0, y: y))
+                lines.addLine(to: CGPoint(x: size.width, y: y))
+                y -= increment * Double(gridSpacing)
+            } while y >= 0
+            
+            context.stroke(lines, with: .color(.black.opacity(0.25)))
+            
+            guard !data.isEmpty else { return }
+            
+            var path = Path()
+            
+            path.move(to: CGPoint(x: self.xGraphPosition(0, in: size), y: yGraphPosition(data[0], in: size)))
+            
+            for (index, dataPoint) in data.dropFirst().enumerated() {
+                path.addLine(to: CGPoint(x: self.xGraphPosition(index, in: size), y: self.yGraphPosition(dataPoint, in: size)))
+            }
+            
+            context.stroke(path, with: .color(.accentColor))
+            
+        }.onChange(of: data) {
+            timestep += 1
+        }
     }
 }
 
