@@ -59,4 +59,13 @@ class MotionDetector: ObservableObject {
             onUpdate()
         }
     }
+    
+    func stop() {
+        motionManager.stopDeviceMotionUpdates()
+        timer.invalidate()
+        if let orientationObserver = orientationObserver {
+            NotificationCenter.default.removeObserver(orientationObserver, name: orientationNotification, object: nil)
+        }
+        orientationObserver = nil
+    }
 }
