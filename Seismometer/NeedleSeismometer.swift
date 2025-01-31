@@ -17,7 +17,42 @@ struct NeedleSeismometer: View {
     }
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Spacer()
+            
+            ZStack(alignment: .bottom) {
+                GaugeBackground(width: 250)
+                Rectangle()
+                    .foregroundColor(Color.accentColor)
+                    .frame(width: 5, height: 190)
+                    .rotationEffect(rotationAngle, anchor: needleAnchor)
+                    .overlay {
+                        VStack {
+                            Spacer()
+                            Circle()
+                                .stroke(lineWidth: 3)
+                                .fill()
+                                .frame(width: 10, height: 10)
+                                .foregroundColor(Color.accentColor)
+                                .background(Color.white)
+                                .offset(x: 0, y: 5)
+                        }
+                    }
+            }
+            
+            Spacer()
+            
+            Text("\(motionDetector.zAcceleration.describeAsFixedLengthString())")
+                .font(.system(.body, design: .monospaced))
+                .fontWeight(.bold)
+            
+            Spacer()
+            
+            Text("Set you device on a flat surface to record vibrations using its motion sensors.")
+                .padding()
+            
+            Spacer()
+        }
     }
 }
 
