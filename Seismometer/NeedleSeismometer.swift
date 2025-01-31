@@ -58,4 +58,5 @@ struct NeedleSeismometer: View {
 
 #Preview {
     NeedleSeismometer()
+        .environmentObject(MotionDetector(updateInterval: 0.01).started())
 }
